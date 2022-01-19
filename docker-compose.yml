@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  wordpress:
+    build: ./srcs/wordpress
+  nginx:
+    build: ./srcs/nginx
+    ports:
+      - 443:443

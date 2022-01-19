@@ -9,7 +9,7 @@ RUN 		chmod 755 mkcert \
 			&& ./mkcert -install \
 			&& ./mkcert -cert-file /etc/ssl/certs/localhost-selfsigned.pem -key-file /etc/ssl/certs/localhost-selfsigned.key localhost
 
-EXPOSE		80
+EXPOSE		80 443
 
 ENTRYPOINT 	service nginx start \
 		   	&& /bin/bash
