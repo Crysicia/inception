@@ -11,5 +11,4 @@ RUN 		chmod 755 mkcert \
 
 EXPOSE		80 443
 
-ENTRYPOINT 	service nginx start \
-		   	&& /bin/bash
+CMD			["nginx", "-g", "daemon off;"]
