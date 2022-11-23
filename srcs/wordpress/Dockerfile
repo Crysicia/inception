@@ -17,10 +17,12 @@ RUN		apt update \
 							  php7.3-xmlrpc \
 							  php7.3-zip
 
-COPY	./config/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 
 COPY	wp-cli.phar .
+
 COPY	wordpress.tar.gz .
+
+COPY	./config/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 
 RUN		tar xvzf wordpress.tar.gz \
 		&& rm wordpress.tar.gz \
@@ -33,4 +35,4 @@ RUN		mkdir -p /run/php
 
 EXPOSE	9000
 
-CMD		["/usr/sbin/php-fpm7.3", "-F", "-R"]
+CMD		["/usr/sbin/php-fpm7.3", "-F"]
