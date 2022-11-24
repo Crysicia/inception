@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+  wordpress:
+    build: ./wordpress
+    volumes:
+      - './wordpress/volume:/var/www/wordpress'
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    networks:
+      - php
+    restart: always
+    env_file:
+      - .env
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 443:443
+    volumes:
+      - './wordpress/volume:/var/www/wordpress'
+      - './nginx/config:/etc/nginx/conf.d'
+    depends_on:
+      - wordpress
+    networks:
+      - php
+    restart: always
+    env_file:
+      - .env
+
+  mariadb:
+    build:
+      context: ./mariadb
+      args:
+        MYSQL_DB: ${MYSQL_DB}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - php
+    healthcheck:
+      test: "mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD} ${MYSQL_DB} -e 'select 1'"
+      interval: 1s
+      retries: 120
+    restart: always
+    env_file:
+      - .env
+
+volumes:
+  db_data:
+
+networks:
+  php:

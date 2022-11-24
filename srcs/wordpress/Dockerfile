@@ -1,11 +1,7 @@
 FROM	debian:buster
 
-ARG user=user42
-ARG password=user42
-ARG database=wordpress
-
 RUN		apt update \
-		&& apt-get install -y wget \
+		&& apt-get install -y curl \
 							  php7.3-fpm \
 							  php7.3-mysql \
 							  php7.3-curl \
@@ -15,24 +11,22 @@ RUN		apt update \
 							  php7.3-soap \
 							  php7.3-xml \
 							  php7.3-xmlrpc \
-							  php7.3-zip
+							  php7.3-zip \
+							  mariadb-client
 
-
-COPY	wp-cli.phar .
-
-COPY	wordpress.tar.gz .
+RUN 	curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
 COPY	./config/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 
-RUN		tar xvzf wordpress.tar.gz \
-		&& rm wordpress.tar.gz \
+COPY	./config/run.sh .
+
+RUN		chmod +x run.sh \
 		&& chmod +x wp-cli.phar \
-		&& mv wp-cli.phar /usr/local/bin/wp
-		# && wp config create --path=/var/www/localhost --dbname=$database --dbuser=$user --dbpass=$password --allow-root \
-		# && wp core install --path=/var/www/localhost --url=localhost --title="lpassera's ft_server" --admin_user=admin --admin_password=admin --admin_email=admin@localhost.com --allow-root
+		&& mv wp-cli.phar /usr/local/bin/wp \
+		&& mkdir -p /var/www/wordpress
 
 RUN		mkdir -p /run/php
 
 EXPOSE	9000
 
-CMD		["/usr/sbin/php-fpm7.3", "-F"]
+CMD		["./run.sh"]
