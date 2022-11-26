@@ -9,7 +9,7 @@ services:
       mariadb:
         condition: service_healthy
     networks:
-      - php
+      - internal
     restart: always
     env_file:
       - .env
@@ -19,12 +19,12 @@ services:
     ports:
       - 443:443
     volumes:
-      - './wordpress/volume:/var/www/wordpress'
+      - wp_data:/var/www/wordpress
       - './nginx/config:/etc/nginx/conf.d'
     depends_on:
       - wordpress
     networks:
-      - php
+      - internal
     restart: always
     env_file:
       - .env
@@ -39,7 +39,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     networks:
-      - php
+      - internal
     healthcheck:
       test: "mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD} ${MYSQL_DB} -e 'select 1'"
       interval: 1s
@@ -50,6 +50,18 @@ services:
 
 volumes:
   db_data:
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   device: ${VOLUMES_PATH}/db_data
+    #   o: bind
+  wp_data:
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   device: ${VOLUMES_PATH}/wp_data
+    #   o: bind
+
 
 networks:
-  php:
+  internal:

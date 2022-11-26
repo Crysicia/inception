@@ -4,7 +4,7 @@ DNS_ENTRY	= "127.0.0.1 ${URL}"
 HOSTS_FILE	= "/etc/hosts"
 
 
-all:
+all: setup launch
 	@echo ${URL}
 
 dns:
@@ -15,6 +15,9 @@ volumes:
 	@mkdir -p /home/${LOGIN}/data
 	@echo "[VOLUMES] - OK"
 
-setup: dns volumes
+launch:
+	@docker-compose --file ./srcs/docker-compose.yml up
+
+setup: dns
 
 .PHONY: all setup dns volumes
