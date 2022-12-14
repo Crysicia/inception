@@ -9,6 +9,9 @@ RUN 		chmod 755 mkcert		\
 			&& ./mkcert -install	\
 			&& ./mkcert -cert-file /etc/ssl/certs/localhost-selfsigned.pem -key-file /etc/ssl/certs/localhost-selfsigned.key localhost
 
+RUN			chmod 755 /var/www/html \
+			&& chown -R www-data:www-data /var/www/html
+
 EXPOSE		443
 
 CMD			["nginx", "-g", "daemon off;"]

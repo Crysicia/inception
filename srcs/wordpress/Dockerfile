@@ -1,6 +1,6 @@
 FROM	debian:buster
 
-RUN		apt-get update \
+RUN		apt-get update 							\
 		&& apt-get install -y curl				\
 							  php7.3-fpm		\
 							  php7.3-mysql		\
@@ -22,11 +22,10 @@ COPY	./config/run.sh .
 
 RUN		chmod +x run.sh 					\
 		&& chmod +x wp-cli.phar 			\
-		&& mv wp-cli.phar /usr/local/bin/wp \
-		&& mkdir -p /var/www/wordpress
+		&& mv wp-cli.phar /usr/local/bin/wp	\
+		&& mkdir -p /var/www/wordpress		\
+		&& chown -R root:root /var/www/wordpress
 
 RUN		mkdir -p /run/php
-
-EXPOSE	9000
 
 CMD		["./run.sh"]
