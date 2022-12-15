@@ -36,6 +36,7 @@ services:
         MYSQL_USER: ${MYSQL_USER}
         MYSQL_PASSWORD: ${MYSQL_PASSWORD}
         MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        MYSQL_DEFAULT_ROOT_PASSWORD: ${MYSQL_DEFAULT_ROOT_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
     networks:
