@@ -20,7 +20,6 @@ services:
       - 443:443
     volumes:
       - wp_data:/var/www/wordpress
-      - './nginx/config:/etc/nginx/conf.d'
     depends_on:
       - wordpress
     networks:
@@ -64,3 +63,4 @@ volumes:
 
 networks:
   internal:
+    driver: bridge

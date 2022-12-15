@@ -12,4 +12,4 @@ else
 	chown www-data:www-data /var/www/wordpress
 fi
 
-/usr/sbin/php-fpm7.3 -F
+exec "$@"

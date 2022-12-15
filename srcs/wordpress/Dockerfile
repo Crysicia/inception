@@ -23,9 +23,8 @@ COPY	./config/run.sh .
 RUN		chmod +x run.sh 					\
 		&& chmod +x wp-cli.phar 			\
 		&& mv wp-cli.phar /usr/local/bin/wp	\
-		&& mkdir -p /var/www/wordpress		\
-		&& chown -R root:root /var/www/wordpress
+		&& mkdir -p /var/www/wordpress
 
 RUN		mkdir -p /run/php
 
-CMD		["./run.sh"]
+CMD		["./run.sh", "/usr/sbin/php-fpm7.3", "-F"]

@@ -15,6 +15,8 @@ RUN 	service mysql start 																		\
 		&& mysql -e "CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" 	\
 		&& mysql -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DB;"										\
 		&& mysql -e "GRANT ALL PRIVILEGES ON $MYSQL_DB.* TO '$MYSQL_USER'@'%' WITH GRANT OPTION;" 	\
+		&& mysql -e "DELETE FROM mysql.user WHERE User=''"										 	\
+		&& mysql -e "DELETE FROM mysql.user WHERE User='root'"									 	\
 		&& mysql -e "FLUSH PRIVILEGES;"
 
 EXPOSE	3306
