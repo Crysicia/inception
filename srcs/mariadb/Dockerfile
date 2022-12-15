@@ -3,6 +3,7 @@ FROM	debian:buster
 ARG		MYSQL_DB
 ARG		MYSQL_USER
 ARG		MYSQL_PASSWORD
+ARG		MYSQL_ROOT_PASSWORD
 
 RUN		apt-get update \
 		&& apt-get install -y mariadb-server
@@ -15,10 +16,7 @@ RUN 	service mysql start 																		\
 		&& mysql -e "CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" 	\
 		&& mysql -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DB;"										\
 		&& mysql -e "GRANT ALL PRIVILEGES ON $MYSQL_DB.* TO '$MYSQL_USER'@'%' WITH GRANT OPTION;" 	\
-		&& mysql -e "DELETE FROM mysql.user WHERE User=''"										 	\
-		&& mysql -e "DELETE FROM mysql.user WHERE User='root'"									 	\
+		&& mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';" 	\
 		&& mysql -e "FLUSH PRIVILEGES;"
-
-EXPOSE	3306
 
 CMD		["mysqld", "--bind-address=0.0.0.0"]

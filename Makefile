@@ -17,10 +17,10 @@ volumes:
 	@echo "[VOLUMES] - OK"
 
 launch:
-	@docker-compose --file ./srcs/docker-compose.yml up -d --build
+	@docker compose --file ./srcs/docker-compose.yml up --build
 
 down:
-	@docker-compose --file ./srcs/docker-compose.yml down
+	@docker compose --file ./srcs/docker-compose.yml down
 
 stop:
 	-@docker stop $(shell docker ps -aq)
