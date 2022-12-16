@@ -35,6 +35,7 @@ clean_volumes:
 	-@docker volume rm $(shell docker volume ls -q)
 
 fclean: stop clean_containers clean_images clean_volumes
+	docker system prune -af --volumes
 
 setup: volumes
 
