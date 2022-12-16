@@ -2,7 +2,7 @@ version: '3'
 
 services:
   wordpress:
-    build: ./wordpress
+    build: ./requirements/wordpress
     volumes:
       - wp_data:/var/www/wordpress
     depends_on:
@@ -15,7 +15,7 @@ services:
       - .env
 
   nginx:
-    build: ./nginx
+    build: ./requirements/nginx
     ports:
       - 443:443
     volumes:
@@ -30,7 +30,7 @@ services:
 
   mariadb:
     build:
-      context: ./mariadb
+      context: ./requirements/mariadb
       args:
         MYSQL_DB: ${MYSQL_DB}
         MYSQL_USER: ${MYSQL_USER}
@@ -43,7 +43,7 @@ services:
       - internal
     healthcheck:
       test: "mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD} ${MYSQL_DB} -e 'select 1'"
-      interval: 1s
+      interval: 2s
       retries: 120
     restart: always
     env_file:
